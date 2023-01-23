@@ -1,2 +1,0 @@
-def sciViewerWelcome():
-    return "Hello!"
