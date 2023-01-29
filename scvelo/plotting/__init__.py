@@ -5,8 +5,8 @@ from .heatmap import heatmap
 from .paga import paga
 from .proportions import proportions
 from .scatter import diffmap, draw_graph, pca, phate, scatter, tsne, umap
+from .sciviewer import SCIViewer, show_portal
 from .simulation import simulation
-from .sciviewer import sciViewerWelcome
 from .summary import summary
 from .utils import hist, plot
 from .velocity import velocity
@@ -29,7 +29,7 @@ __all__ = [
     "proportions",
     "rank_genes_groups",
     "scatter",
-    "sciviewer"
+    "sciviewer",
     "simulation",
     "summary",
     "tsne",
