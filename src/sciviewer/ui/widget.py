@@ -75,7 +75,5 @@ class Widget():
         self.pmouse_y = pmy - self.top
 
     def has_focus(self, mx, my):
-        x = mx - self.left
-        y = my - self.top
-        return self.left <= x and x <= self.left + self.width and\
-               self.top <= y and y <= self.top + self.height
+        return self.left <= mx and mx <= self.left + self.width and\
+               self.top <= my and my <= self.top + self.height
