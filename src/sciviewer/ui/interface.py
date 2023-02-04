@@ -2,7 +2,7 @@ from sciviewer.ui.widget import Widget
 
 class Interface():
     def __init__(self, sketch):
-        self.sketch
+        self.sketch = sketch
         self.root = Widget(self)
         self.drawn = []
         self.focused = None

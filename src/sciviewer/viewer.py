@@ -23,7 +23,7 @@ class Viewer(Sketch):
         self.data = data
 
         self.intf = Interface(self)
-        self.intf.add_widget(Button(0, 0, 50, 20))
+        self.intf.add_widget(Button(self.intf, 70, 100, 50, 20))
 
     def settings(self):
         self.size(self.out_width, self.out_height, py5.P2D)
