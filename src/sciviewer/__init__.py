@@ -1,17 +1,14 @@
 from anndata import AnnData
-from scanpy import read, read_loom
-from pandas import read_csv
+from scanpy import read
+from scanpy import datasets
 
-from sciviewer.plotting import test
-from sciviewer.plotting import open_viewer as open
-from sciviewer.plotting import embed_viewer as embed
+from sciviewer.viewer import open_viewer as open
+from sciviewer.viewer import embed_viewer as embed
 
 __all__ = [
     "AnnData",
     "read",
-    "read_csv",
-    "read_loom",
-    "test",
+    "datasets",
     "open",
     "embed"
 ]
