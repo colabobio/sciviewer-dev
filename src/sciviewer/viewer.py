@@ -1,5 +1,7 @@
 from sciviewer import utils
 from sciviewer.data import Data
+from sciviewer.ui.interface import Interface
+from sciviewer.ui.button import Button
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -20,6 +22,9 @@ class Viewer(Sketch):
         self.out_height = size
         self.data = data
 
+        self.intf = Interface(self)
+        self.intf.add_widget(Button(0, 0, 50, 20))
+
     def settings(self):
         self.size(self.out_width, self.out_height, py5.P2D)
 
@@ -36,6 +41,21 @@ class Viewer(Sketch):
             x = self.remap(cell.umap1, 0, 1, 0, self.width)
             y = self.remap(cell.umap2, 0, 1, 0, self.height)
             self.ellipse(x, y, 3, 3)
+        
+        self.intf.update()
+        self.intf.draw()
+
+    def mouse_pressed(self):
+        self.intf.mouse_pressed()
+
+    def mouse_moved(self):
+       self.intf.mouse_moved() 
+
+    def mouse_dragged(self):
+       self.intf.mouse_dragged()
+
+    def mouse_released(self):
+       self.intf.mouse_released()
 
 def open_viewer(adata, size):
     global _viewer
