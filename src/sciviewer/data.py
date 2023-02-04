@@ -7,7 +7,21 @@ class Data():
     def __init__(self, adata):
         self.umap = adata.obsm["X_umap"]
         self.gene_names = adata.var.index.tolist()
-        self.cell_names = adata.obs.index.tolist()
+        
+        cell_names = adata.obs.index.tolist()
+        self.init_cells(cell_names)
+
+    def init_cells(self, names):
+        min1 = self.umap[:,0].min()
+        max1 = self.umap[:,0].max()
+        min2 = self.umap[:,1].min()
+        max2 = self.umap[:,1].max()
+        
+        self.cells = []
+        for i in range(self.umap.shape[0]):
+            cell = Cell(names[i], self.umap[i,0], self.umap[i,1])
+            cell.normalize(min1, max1, min2, max2)
+            self.cells.append(cell)
 
 class Gene():
     def __init__(self, n, i, r, p):
@@ -27,8 +41,8 @@ class Cell:
         self.expression = []
 
     def normalize(self, min1, max1, min2, max2):
-        self.umap1 =      remap(self.umap1, min1, max1, 0, 1)
-        self.umap2 = remap(self.umap2, min2, max2, 1, 0)
+        self.umap1 = (self.umap1 - min1) / (max1 - min1)
+        self.umap2 = 1 - (self.umap2 - min2) / (max2 - min2)
         
     def project(self, sel):
         if self.selected:
