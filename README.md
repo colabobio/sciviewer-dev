@@ -2,7 +2,7 @@
 
 This is very experimental code, which will eventually replace the current SCIViewer prototype [here](https://github.com/colabobio/sciviewer).
 
-## How to use
+## How to install
 
 First, make sure the following requirements are met:
 * A working installation of Python 3.8 (or later), if you dont have one consider installing [Miniconda](http://conda.pydata.org/miniconda.html).
@@ -26,6 +26,20 @@ You should be all set! Use your preferred code editor to develop SCIViewer, you 
 To install the sciviewer-dev package globally on your development computer, please run:
 
 ```pip install -e .```
+
+## Quick start
+
+Sciviewer is executed from a Jupyter notebook such as in the examples directory. It is run by initializing a opening the interacive viewer window with some data as input and then embeding the viewer into the notebook (this step should not be required in the future). E.g.
+
+```
+import sciviewer as sci
+pbmc = sci.datasets.pbmc68k_reduced()
+sci.view(pbmc, 500)
+sci.embed()
+```
+
+Click the video link below for a 50 second demo demonstrating the notebook embedding:
+[![Watch the video](https://img.youtube.com/vi/Gir8V1SK7gw/maxresdefault.jpg)](https://youtu.be/Gir8V1SK7gw)
 
 ## Packaging SCIViewer
 
