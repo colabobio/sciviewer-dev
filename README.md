@@ -27,3 +27,10 @@ To install the sciviewer-dev package globally on your development computer, plea
 
 ```pip install -e .```
 
+## Packaging SCIViewer
+
+We are following [scVelo](https://github.com/theislab/scvelo/)'s architecture to package SCIViewer as a tool that integrates well with the scanpy ecosystem. Some additional resources on creating Python packages below:
+
+* [Python Packaging User Guide](https://packaging.python.org/en/latest/overview/)
+* [Understanding setup.py, setup.cfg and pyproject.toml in Python](https://ianhopkinson.org.uk/2022/02/understanding-setup-py-setup-cfg-and-pyproject-toml-in-python/)
+* [What the heck is pyproject.toml?](https://snarky.ca/what-the-heck-is-pyproject-toml/)
