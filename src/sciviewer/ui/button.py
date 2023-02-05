@@ -3,6 +3,7 @@ from sciviewer.ui.widget import Widget
 class Button(Widget):
     def draw(self):
         p = self.intf.sketch
+        p.no_stroke()
         p.fill(self.color())
         p.rect(0, 0, self.width, self.height, 5)
         self.intf.set_font("Helvetica", 14)

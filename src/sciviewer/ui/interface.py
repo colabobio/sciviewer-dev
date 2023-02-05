@@ -3,17 +3,31 @@ from sciviewer.ui.widget import Widget
 class Interface():
     def __init__(self, sketch, scale=1):
         self.scale_factor = scale
-        self.sketch = sketch
-        self.root = Widget(self)        
+        self.sketch = sketch          
         self.focused = None
         self.drawn = []
         self.fonts = {}
+        self.widgets = {}
+        self.root = Widget(self)
 
-    def add_widget(self, w, parent=None):
+    def add_widget(self, w, parent=None, name=None, parent_name=None):
         if parent:
             parent.add_children(w)
         else:
-            self.root.add_children(w)
+            if parent_name:
+                p = self.get_widget(parent_name)
+                if p:
+                    p.add_children(w)
+            else:    
+                self.root.add_children(w)
+        if name:
+            self.widgets[name] = w
+
+    def get_widget(self, name):
+        if name in self.widgets:
+            return self.widgets[name]
+        else:
+            return None    
 
     def add_font(self, name, size):
         font = self.sketch.create_font(name, self.scale_factor * size)

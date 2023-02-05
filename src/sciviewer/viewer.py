@@ -2,6 +2,7 @@ from sciviewer import utils
 from sciviewer.data import Data
 from sciviewer.ui.interface import Interface
 from sciviewer.ui.button import Button
+from sciviewer.ui.scatter import Scatter
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -27,20 +28,12 @@ class Viewer(Sketch):
 
     def setup(self):
         surface = self.get_surface()
-        surface.set_resizable(True)
+        surface.set_resizable(False)
         surface.set_title("single-cell interactive viewer")
-        self.no_stroke()
-        self.fill(0, 100)
         self.init_ui()
 
     def draw(self):
         self.background(255)
-        
-        for cell in self.data.cells:
-            x = self.remap(cell.umap1, 0, 1, 0, self.width)
-            y = self.remap(cell.umap2, 0, 1, 0, self.height)
-            self.ellipse(x, y, 3, 3)
-
         self.intf.update()
 
     def mouse_pressed(self):
@@ -56,9 +49,10 @@ class Viewer(Sketch):
        self.intf.mouse_released()
 
     def init_ui(self):
-        self.intf = Interface(self)
-        self.intf.add_widget(Button(self.intf, 70, 100, 100, 25))
+        self.intf = Interface(self)        
         self.intf.add_font("Helvetica", 14)
+        self.intf.add_widget(Scatter(self.intf, 0, 0, self.width, self.height), name="scatter")
+        self.intf.add_widget(Button(self.intf, 70, 100, 100, 25), name="button", parent_name="scatter")        
 
 def open_viewer(adata, size):
     global _viewer
