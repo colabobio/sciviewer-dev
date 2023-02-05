@@ -1,5 +1,5 @@
 class Widget():
-    def __init__(self, intf, x=0, y=0, w=0, h=0):
+    def __init__(self, intf, x=0, y=0, w=0, h=0, callback=None):
         self.intf = intf
 
         self.rel_x = intf.scale_factor * x
@@ -20,12 +20,17 @@ class Widget():
         self.parent = None
         self.children = []
 
+        self.callback = callback
+
         self.setup()
 
     def set_parent(self, p):
         self.parent = p
         self.abs_x = p.abs_x + self.rel_x
         self.abs_y = p.abs_y + self.rel_y
+
+    def set_callback(self, callback):
+        self.callback = callback    
 
     def add_children(self, c):
         self.children += [c]

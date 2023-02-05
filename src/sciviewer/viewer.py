@@ -1,8 +1,8 @@
 from sciviewer import utils
 from sciviewer.data import Data
 from sciviewer.ui.interface import Interface
-from sciviewer.ui.button import Button
 from sciviewer.ui.scatter import Scatter
+from sciviewer.ui.buttons import SwitchButton
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -24,7 +24,7 @@ class Viewer(Sketch):
         self.data = data        
 
     def settings(self):
-        self.size(self.out_width, self.out_height, py5.P2D)
+        self.size(self.out_width, self.out_height, self.P2D)
 
     def setup(self):
         surface = self.get_surface()
@@ -48,11 +48,23 @@ class Viewer(Sketch):
     def mouse_released(self):
        self.intf.mouse_released()
 
+    def set_differential_selection(self):
+        print("setting differential selection")
+        self.intf.get_widget("dir_button").switch_off()
+
+    def set_directional_selection(self):
+        print("setting directional selection")
+        self.intf.get_widget("diff_button").switch_off()
+
     def init_ui(self):
         self.intf = Interface(self)        
         self.intf.add_font("Helvetica", 14)
         self.intf.add_widget(Scatter(self.intf, 0, 0, self.width, self.height), name="scatter")
-        self.intf.add_widget(Button(self.intf, 70, 100, 100, 25), name="button", parent_name="scatter")        
+
+        dif_switch_btn = SwitchButton(self.intf, self.width - 170, 20, 150, 25, callback=self.set_differential_selection, label="Differential selection")
+        dir_switch_btn = SwitchButton(self.intf, self.width - 170, 50, 150, 25, callback=self.set_directional_selection, label="Directional selection")
+        self.intf.add_widget(dif_switch_btn, name="diff_button", parent_name="scatter")
+        self.intf.add_widget(dir_switch_btn, name="dir_button", parent_name="scatter")
 
 def open_viewer(adata, size):
     global _viewer
