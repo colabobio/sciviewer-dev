@@ -2,17 +2,21 @@ class Widget():
     def __init__(self, intf, x=0, y=0, w=0, h=0):
         self.intf = intf
 
-        self.left = x
-        self.top = y
-        self.width = w
-        self.height = h
+        self.rel_x = intf.scale_factor * x
+        self.rel_y = intf.scale_factor * y
+
+        self.abs_x = intf.scale_factor * x
+        self.abs_y = intf.scale_factor * y
+
+        self.width = intf.scale_factor * w
+        self.height = intf.scale_factor * h
 
         self.mouse_x = 0
         self.mouse_y = 0
         self.pmouse_x = 0
         self.pmouse_y = 0
 
-        self.focused = False
+        self.is_focused = False
         self.parent = None
         self.children = []
 
@@ -20,22 +24,23 @@ class Widget():
 
     def set_parent(self, p):
         self.parent = p
+        self.abs_x = p.abs_x + self.rel_x
+        self.abs_y = p.abs_y + self.rel_y
 
     def add_children(self, c):
         self.children += [c]
         c.set_parent(self)
 
-    def update_children(self):
-        p = self.intf.sketch
+    def update_children(self):        
         for child in self.children:
-            child.set_mouse(p.mouse_x, p.mouse_y, p.pmouse_x, p.pmouse_y)
-            self.focused = self == self.intf.focused
+            child.set_rel_mouse_pos()
+            child.set_focused_state()
             child.update_children()
 
     def draw_children(self):
         p = self.intf.sketch
         for child in self.children:
-            p.push_matrix()            
+            p.push_matrix()
             child.set_origin()
             
             p.push_style()
@@ -44,8 +49,25 @@ class Widget():
 
             self.intf.add_drawn(child)
 
-            child.draw_children()            
+            child.draw_children()
             p.pop_matrix()
+
+    def set_origin(self):
+        self.intf.sketch.translate(self.rel_x, self.rel_y)
+
+    def set_rel_mouse_pos(self):
+        p = self.intf.sketch
+        self.mouse_x = p.mouse_x - self.abs_x
+        self.mouse_y = p.mouse_y - self.abs_y
+        self.pmouse_x = p.pmouse_x - self.abs_x
+        self.pmouse_y = p.pmouse_y - self.abs_y
+
+    def set_focused_state(self):
+        self.is_focused = self == self.intf.focused
+
+    def has_focus(self, mx, my):
+        return self.abs_x <= mx and mx <= self.abs_x + self.width and \
+               self.abs_y <= my and my <= self.abs_y + self.height
 
     def setup(self):
         pass
@@ -64,16 +86,3 @@ class Widget():
 
     def release(self):
         pass
-
-    def set_origin(self):
-        self.intf.sketch.translate(self.left, self.top)
-
-    def set_mouse(self, mx, my, pmx, pmy):
-        self.mouse_x = mx - self.left
-        self.mouse_y = my - self.top
-        self.pmouse_x = pmx - self.left
-        self.pmouse_y = pmy - self.top
-
-    def has_focus(self, mx, my):
-        return self.left <= mx and mx <= self.left + self.width and\
-               self.top <= my and my <= self.top + self.height

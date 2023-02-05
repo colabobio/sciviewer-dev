@@ -20,10 +20,7 @@ class Viewer(Sketch):
         super().__init__()
         self.out_width = size
         self.out_height = size
-        self.data = data
-
-        self.intf = Interface(self)
-        self.intf.add_widget(Button(self.intf, 70, 100, 50, 20))
+        self.data = data        
 
     def settings(self):
         self.size(self.out_width, self.out_height, py5.P2D)
@@ -34,16 +31,17 @@ class Viewer(Sketch):
         surface.set_title("single-cell interactive viewer")
         self.no_stroke()
         self.fill(0, 100)
+        self.init_ui()
 
     def draw(self):
         self.background(255)
+        
         for cell in self.data.cells:
             x = self.remap(cell.umap1, 0, 1, 0, self.width)
             y = self.remap(cell.umap2, 0, 1, 0, self.height)
             self.ellipse(x, y, 3, 3)
-        
+
         self.intf.update()
-        self.intf.draw()
 
     def mouse_pressed(self):
         self.intf.mouse_pressed()
@@ -56,6 +54,11 @@ class Viewer(Sketch):
 
     def mouse_released(self):
        self.intf.mouse_released()
+
+    def init_ui(self):
+        self.intf = Interface(self)
+        self.intf.add_widget(Button(self.intf, 70, 100, 100, 25))
+        self.intf.add_font("Helvetica", 14)
 
 def open_viewer(adata, size):
     global _viewer
