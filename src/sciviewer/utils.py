@@ -11,8 +11,9 @@ def angle_between(v1, v2):
 # https://stackoverflow.com/questions/36399381/whats-the-fastest-way-of-checking-if-a-point-is-inside-a-polygon-in-python
 def point_inside_polygon(x, y, poly):
     n = len(poly)
-    inside = False
+    if n < 3: return False
 
+    inside = False
     p1x, p1y = poly[0]
     for i in range(n+1):
         p2x, p2y = poly[i % n]

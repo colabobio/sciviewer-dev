@@ -75,7 +75,7 @@ class Interface():
         pfocused = self.focused
         self.focused = None
         for child in self.drawn[::-1]:
-            if child.has_focus(mx, my):
+            if child.is_visible and child.is_active and child.has_focus(mx, my):
                 # if pfocused:
                 #     pfocused.lost_focus()
                 self.focused = child

@@ -5,6 +5,7 @@ from sciviewer.ui.scatter import Scatter
 from sciviewer.ui.buttons import Button
 from sciviewer.ui.buttons import SwitchButton
 from sciviewer.ui.selectors import DifferentialSelector
+from sciviewer.ui.selectors import DirectionalSelector
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -52,13 +53,18 @@ class Viewer(Sketch):
 
     def switch_to_diff_selection(self):
         self.intf.get_widget("diff_selector").activate()
+        self.intf.get_widget("dir_selector").deactivate()
         self.intf.get_widget("dir_button").switch_off()
 
     def switch_to_dir_selection(self):
         self.intf.get_widget("diff_selector").deactivate()
+        self.intf.get_widget("dir_selector").activate()
         self.intf.get_widget("diff_button").switch_off()
 
     def set_differential_selection(self, sel_area):
+        self.intf.get_widget("scatter").select_cells(sel_area)
+
+    def set_directional_selection(self, sel_area):
         self.intf.get_widget("scatter").select_cells(sel_area)
 
     def clear_selected_cells(self):
@@ -70,7 +76,9 @@ class Viewer(Sketch):
         self.intf.add_widget(Scatter(self.intf, 0, 0, self.width, self.height), name="scatter")
 
         diff_selector = DifferentialSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_differential_selection)
+        dir_selector = DirectionalSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_directional_selection)
         self.intf.add_widget(diff_selector, name="diff_selector", parent_name="scatter")
+        self.intf.add_widget(dir_selector, name="dir_selector", parent_name="scatter")
 
         diff_button = SwitchButton(self.intf, self.width - 170, 20, 150, 25, callback=self.switch_to_diff_selection, label="Differential selection")
         dir_button = SwitchButton(self.intf, self.width - 170, 50, 150, 25, callback=self.switch_to_dir_selection, label="Directional selection")

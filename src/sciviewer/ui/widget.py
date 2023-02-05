@@ -20,6 +20,9 @@ class Widget():
         self.parent = None
         self.children = []
 
+        self.is_active = True
+        self.is_visible = True
+
         self.callback = callback
 
         self.setup()
@@ -45,6 +48,8 @@ class Widget():
     def draw_children(self):
         p = self.intf.sketch
         for child in self.children:
+            if not child.is_visible: continue
+
             p.push_matrix()
             child.set_origin()
             
@@ -73,6 +78,18 @@ class Widget():
     def has_focus(self, mx, my):
         return self.abs_x <= mx and mx <= self.abs_x + self.width and \
                self.abs_y <= my and my <= self.abs_y + self.height
+
+    def show(self):
+        self.is_visible = True
+
+    def hide(self):
+        self.is_visible = False
+
+    def activate(self):
+        self.is_active = True
+
+    def deactivate(self):
+        self.is_active = False
 
     def setup(self):
         pass
