@@ -2,6 +2,7 @@ from sciviewer import utils
 from sciviewer.data import Data
 from sciviewer.ui.interface import Interface
 from sciviewer.ui.scatter import Scatter
+from sciviewer.ui.buttons import Button
 from sciviewer.ui.buttons import SwitchButton
 from sciviewer.ui.selectors import DifferentialSelector
 
@@ -57,8 +58,11 @@ class Viewer(Sketch):
         self.intf.get_widget("diff_selector").deactivate()
         self.intf.get_widget("diff_button").switch_off()
 
-    def set_differential_selection(self, selection):
-        print("setting directional selection", selection)
+    def set_differential_selection(self, sel_area):
+        self.intf.get_widget("scatter").select_cells(sel_area)
+
+    def clear_selected_cells(self):
+        self.intf.get_widget("scatter").clear_selection()
 
     def init_ui(self):
         self.intf = Interface(self)        
@@ -70,8 +74,10 @@ class Viewer(Sketch):
 
         diff_button = SwitchButton(self.intf, self.width - 170, 20, 150, 25, callback=self.switch_to_diff_selection, label="Differential selection")
         dir_button = SwitchButton(self.intf, self.width - 170, 50, 150, 25, callback=self.switch_to_dir_selection, label="Directional selection")
+        clear_button = Button(self.intf, self.width - 170, 80, 150, 25, callback=self.clear_selected_cells, label="Clear selection")
         self.intf.add_widget(diff_button, name="diff_button", parent_name="scatter")
         self.intf.add_widget(dir_button, name="dir_button", parent_name="scatter")
+        self.intf.add_widget(clear_button, name="clear_button", parent_name="scatter")
 
 def open_viewer(adata, size):
     global _viewer

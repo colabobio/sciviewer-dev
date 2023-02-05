@@ -37,7 +37,7 @@ class Cell:
         self.umap1 = u1
         self.umap2 = u2
         self.proj = 0
-        self.selected = False
+        self.is_selected = False
         self.expression = []
 
     def normalize(self, min1, max1, min2, max2):
@@ -45,7 +45,7 @@ class Cell:
         self.umap2 = 1 - (self.umap2 - min2) / (max2 - min2)
         
     def project(self, sel):
-        if self.selected:
+        if self.is_selected:
             dirv = np.array([sel.nx1 - sel.nx0, sel.ny1 - sel.ny0])
             celv = np.array([self.umap1 - sel.nx0, self.umap2 - sel.ny0])
             a = utils.angle_between(dirv, celv)

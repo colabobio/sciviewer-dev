@@ -1,6 +1,10 @@
 from sciviewer.ui.widget import Widget
 
 class Button(Widget):
+    def __init__(self, intf, x, y, w, h, callback, label):
+        super().__init__(intf, x, y, w, h, callback)
+        self.label = label
+
     def draw(self):
         p = self.intf.sketch
         p.no_stroke()
@@ -9,7 +13,7 @@ class Button(Widget):
         self.intf.set_font("Helvetica", 14)
         p.fill(0)
         p.text_align(p.CENTER, p.CENTER)
-        p.text("Click me", 0, 0, self.width, self.height)
+        p.text(self.label, 0, 0, self.width, self.height)
     
     def color(self):
         if self.is_focused:
@@ -21,7 +25,7 @@ class Button(Widget):
             return "#B7B7B7"
 
     def release(self):
-        print("Clicked", self.is_focused)
+        if self.callback: self.callback()
 
 class SwitchButton(Widget):
     def __init__(self, intf, x, y, w, h, callback, label):
@@ -58,5 +62,4 @@ class SwitchButton(Widget):
 
     def release(self):
         self.switch_on()
-        if self.callback:
-            self.callback()
+        if self.callback: self.callback()
