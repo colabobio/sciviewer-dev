@@ -10,13 +10,22 @@ class DifferentialSelector(Widget):
         if not self.is_active: return
 
         p = self.intf.sketch
-        p.fill(230, 20, 20, 100)
         p.stroke(230, 20, 20)
-        p.begin_shape()
-        for mpos in self.selection:
-            p.vertex(mpos[0], mpos[1])
-        p.vertex(self.mouse_x, self.mouse_y)
-        p.end_shape()
+
+        if 0 < len(self.selection):
+            p.fill(230, 20, 20, 100)        
+            if 1 < len(self.selection):
+                p.begin_shape()
+                for mpos in self.selection:
+                    p.vertex(mpos[0], mpos[1])
+                p.vertex(self.mouse_x, self.mouse_y)
+                p.end_shape()
+            else:
+                mpos0 = self.selection[0]
+                p.line(mpos0[0], mpos0[1], self.mouse_x, self.mouse_y)
+
+        p.no_fill()
+        p.ellipse(self.mouse_x, self.mouse_y, self.tolerance, self.tolerance)
 
     def release(self):
         if not self.is_active: return
@@ -38,6 +47,7 @@ class DifferentialSelector(Widget):
             self.selection = []
 
     def lost_focus(self):
+        print("Selector lost focus...")
         self.selection = []
 
     def activate(self):
