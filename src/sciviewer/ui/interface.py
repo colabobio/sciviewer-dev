@@ -50,26 +50,32 @@ class Interface():
     def mouse_pressed(self):
         self.set_focused(self.sketch.mouse_x, self.sketch.mouse_y)
         if self.focused:
+            self.focused.set_rel_mouse_pos()
             self.focused.press()
 
     def mouse_moved(self):
         self.set_focused(self.sketch.mouse_x, self.sketch.mouse_y)
         if self.focused:
+            self.focused.set_rel_mouse_pos()
             self.focused.hover()
 
     def mouse_dragged(self):
         self.set_focused(self.sketch.mouse_x, self.sketch.mouse_y)
         if self.focused:
+            self.focused.set_rel_mouse_pos()
             self.focused.drag()
 
     def mouse_released(self):
         self.set_focused(self.sketch.mouse_x, self.sketch.mouse_y)
         if self.focused:
+            self.focused.set_rel_mouse_pos()
             self.focused.release()
 
     def set_focused(self, mx, my):
         self.focused = None
         for child in self.drawn[::-1]:
             if child.has_focus(mx, my):
+                if self.focused and self.focused != child:
+                    self.focused.lost_focus()
                 self.focused = child
                 return

@@ -91,3 +91,6 @@ class Widget():
 
     def release(self):
         pass
+
+    def lost_focus(self):
+        pass

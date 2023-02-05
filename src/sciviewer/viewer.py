@@ -3,6 +3,7 @@ from sciviewer.data import Data
 from sciviewer.ui.interface import Interface
 from sciviewer.ui.scatter import Scatter
 from sciviewer.ui.buttons import SwitchButton
+from sciviewer.ui.selectors import DifferentialSelector
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -48,23 +49,29 @@ class Viewer(Sketch):
     def mouse_released(self):
        self.intf.mouse_released()
 
-    def set_differential_selection(self):
-        print("setting differential selection")
+    def switch_to_diff_selection(self):
+        self.intf.get_widget("diff_selector").activate()
         self.intf.get_widget("dir_button").switch_off()
 
-    def set_directional_selection(self):
-        print("setting directional selection")
+    def switch_to_dir_selection(self):
+        self.intf.get_widget("diff_selector").deactivate()
         self.intf.get_widget("diff_button").switch_off()
+
+    def set_differential_selection(self, selection):
+        print("setting directional selection", selection)
 
     def init_ui(self):
         self.intf = Interface(self)        
         self.intf.add_font("Helvetica", 14)
         self.intf.add_widget(Scatter(self.intf, 0, 0, self.width, self.height), name="scatter")
 
-        dif_switch_btn = SwitchButton(self.intf, self.width - 170, 20, 150, 25, callback=self.set_differential_selection, label="Differential selection")
-        dir_switch_btn = SwitchButton(self.intf, self.width - 170, 50, 150, 25, callback=self.set_directional_selection, label="Directional selection")
-        self.intf.add_widget(dif_switch_btn, name="diff_button", parent_name="scatter")
-        self.intf.add_widget(dir_switch_btn, name="dir_button", parent_name="scatter")
+        diff_selector = DifferentialSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_differential_selection)
+        self.intf.add_widget(diff_selector, name="diff_selector", parent_name="scatter")
+
+        diff_button = SwitchButton(self.intf, self.width - 170, 20, 150, 25, callback=self.switch_to_diff_selection, label="Differential selection")
+        dir_button = SwitchButton(self.intf, self.width - 170, 50, 150, 25, callback=self.switch_to_dir_selection, label="Directional selection")
+        self.intf.add_widget(diff_button, name="diff_button", parent_name="scatter")
+        self.intf.add_widget(dir_button, name="dir_button", parent_name="scatter")
 
 def open_viewer(adata, size):
     global _viewer
