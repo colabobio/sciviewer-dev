@@ -163,7 +163,7 @@ class DirectionalSelector(Widget):
                 new_pos = ppos1 + poly_width * dirsp
                 self.selection += [(new_pos[0], new_pos[1])]
                         
-            # Adding points backwards
+            # Adding points forwards
             for idx in range(0, n - 1, 1):
                 if1 = idx
                 if2 = idx + 1
@@ -186,13 +186,11 @@ class DirectionalSelector(Widget):
         self.spine = []
         self.selection = []
 
-    def activate(self):
-        self.is_active = True
+    def set_active(self):
         self.spine_mode = True
         self.spine = []
         self.selection = []
 
-    def deactivate(self):
-        self.is_active = False
+    def set_inactive(self):
         self.spine = []
         self.selection = []
