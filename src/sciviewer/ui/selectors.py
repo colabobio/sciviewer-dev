@@ -27,7 +27,7 @@ class DifferentialSelector(Widget):
                 mpos0 = self.selection[0]
                 p.line(mpos0[0], mpos0[1], self.mouse_x, self.mouse_y)
 
-        if self.is_active:
+        if self.is_active and self.is_focused:
             p.no_fill()
             p.ellipse(self.mouse_x, self.mouse_y, self.tolerance, self.tolerance)
 
@@ -93,7 +93,7 @@ class MultiDirectionalSelector(Widget):
             ppos = self.spine[-1]
             p.line(ppos[0], ppos[1], self.mouse_x, self.mouse_y)
 
-        if self.is_active:
+        if self.is_active and self.is_focused:
             p.no_fill()
             p.ellipse(self.mouse_x, self.mouse_y, self.tolerance, self.tolerance)
 
