@@ -49,15 +49,12 @@ class DifferentialSelector(Widget):
             self.selection = []
 
     def lost_focus(self):
-        print("Selector lost focus...")
         self.selection = []
 
-    def activate(self):
-        self.is_active = True
+    def set_active(self):
         self.selection = []
 
-    def deactivate(self):
-        self.is_active = False
+    def set_inactive(self):
         self.selection = []
                 
 class MultiDirectionalSelector(Widget):
@@ -182,7 +179,6 @@ class MultiDirectionalSelector(Widget):
                 self.selection += [(new_pos[0], new_pos[1])]
 
     def lost_focus(self):
-        print("Selector lost focus...")
         self.spine = []
         self.selection = []
 

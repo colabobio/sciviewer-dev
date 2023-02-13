@@ -73,12 +73,12 @@ class Interface():
 
     def set_focused(self, mx, my):
         pfocused = self.focused
-        self.focused = None
+        self.focused = None        
         for child in self.drawn[::-1]:
-            # print(child.name)
             if child.is_visible and child.is_active and child.has_focus(mx, my):
-                # if pfocused:
-                #     pfocused.lost_focus()
+                if pfocused and pfocused != child: 
+                     pfocused.lost_focus()
                 self.focused = child
-                # print("Focused widget", self.focused)
                 return
+        if pfocused:
+            pfocused.lost_focus()            
