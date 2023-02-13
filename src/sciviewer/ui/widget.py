@@ -1,5 +1,5 @@
 class Widget():
-    def __init__(self, intf, x=0, y=0, w=0, h=0, callback=None):
+    def __init__(self, intf, x=0, y=0, w=0, h=0, name=None, callback=None):
         self.intf = intf
 
         self.rel_x = intf.scale_factor * x
@@ -23,6 +23,7 @@ class Widget():
         self.is_active = True
         self.is_visible = True
 
+        self.name = name
         self.callback = callback
 
         self.setup()

@@ -10,18 +10,18 @@ class Interface():
         self.widgets = {}
         self.root = Widget(self)
 
-    def add_widget(self, w, parent=None, name=None, parent_name=None):
+    def add_widget(self, w, parent=None, parent_name=None):
         if parent:
             parent.add_children(w)
         else:
             if parent_name:
-                p = self.get_widget(parent_name)
-                if p:
-                    p.add_children(w)
+                named_parent = self.get_widget(parent_name)
+                if named_parent:
+                    named_parent.add_children(w)
             else:    
                 self.root.add_children(w)
-        if name:
-            self.widgets[name] = w
+        if w.name:
+            self.widgets[w.name] = w
 
     def get_widget(self, name):
         if name in self.widgets:
@@ -75,6 +75,7 @@ class Interface():
         pfocused = self.focused
         self.focused = None
         for child in self.drawn[::-1]:
+            # print(child.name)
             if child.is_visible and child.is_active and child.has_focus(mx, my):
                 # if pfocused:
                 #     pfocused.lost_focus()

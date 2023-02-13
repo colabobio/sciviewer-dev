@@ -1,8 +1,8 @@
 from sciviewer.ui.widget import Widget
 
 class Button(Widget):
-    def __init__(self, intf, x, y, w, h, callback, label):
-        super().__init__(intf, x, y, w, h, callback)
+    def __init__(self, intf, x, y, w, h, name, callback, label):
+        super().__init__(intf, x, y, w, h, name, callback)
         self.label = label
 
     def draw(self):
@@ -28,8 +28,8 @@ class Button(Widget):
         if self.callback: self.callback()
 
 class SwitchButton(Widget):
-    def __init__(self, intf, x, y, w, h, callback, label):
-        super().__init__(intf, x, y, w, h, callback)
+    def __init__(self, intf, x, y, w, h, name, callback, label):
+        super().__init__(intf, x, y, w, h, name, callback)
         self.label = label
 
     def setup(self):

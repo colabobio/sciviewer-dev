@@ -73,19 +73,20 @@ class Viewer(Sketch):
     def init_ui(self):
         self.intf = Interface(self)        
         self.intf.add_font("Helvetica", 14)
-        self.intf.add_widget(Scatter(self.intf, 0, 0, self.width, self.height), name="scatter")
+        scatter = Scatter(self.intf, 0, 0, self.width, self.height, name="scatter")
+        self.intf.add_widget(scatter)
 
-        diff_selector = DifferentialSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_differential_selection)
-        dir_selector = SingleDirectionalSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_directional_selection)
-        self.intf.add_widget(diff_selector, name="diff_selector", parent_name="scatter")
-        self.intf.add_widget(dir_selector, name="dir_selector", parent_name="scatter")
+        diff_selector = DifferentialSelector(self.intf, 0, 0, self.width, self.height, name="diff_selector", callback=self.set_differential_selection)
+        dir_selector = SingleDirectionalSelector(self.intf, 0, 0, self.width, self.height, name="dir_selector", callback=self.set_directional_selection)
+        self.intf.add_widget(diff_selector, parent_name="scatter")
+        self.intf.add_widget(dir_selector, parent_name="scatter")
 
-        diff_button = SwitchButton(self.intf, self.width - 170, 20, 150, 25, callback=self.switch_to_diff_selection, label="Differential selection")
-        dir_button = SwitchButton(self.intf, self.width - 170, 50, 150, 25, callback=self.switch_to_dir_selection, label="Directional selection")
-        clear_button = Button(self.intf, self.width - 170, 80, 150, 25, callback=self.clear_selected_cells, label="Clear selection")
-        self.intf.add_widget(diff_button, name="diff_button", parent_name="scatter")
-        self.intf.add_widget(dir_button, name="dir_button", parent_name="scatter")
-        self.intf.add_widget(clear_button, name="clear_button", parent_name="scatter")
+        diff_button = SwitchButton(self.intf, self.width - 170, 20, 150, 25, name="diff_button", callback=self.switch_to_diff_selection, label="Differential selection")
+        dir_button = SwitchButton(self.intf, self.width - 170, 50, 150, 25, name="dir_button", callback=self.switch_to_dir_selection, label="Directional selection")
+        clear_button = Button(self.intf, self.width - 170, 80, 150, 25, name="clear_button", callback=self.clear_selected_cells, label="Clear selection")
+        self.intf.add_widget(diff_button, parent_name="scatter")
+        self.intf.add_widget(dir_button, parent_name="scatter")
+        self.intf.add_widget(clear_button, parent_name="scatter")
 
 def open_viewer(adata, size):
     global _viewer
