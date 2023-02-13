@@ -29,9 +29,6 @@ class Interface():
         else:
             return None    
 
-    def scaled(self, value):
-        return self.scale_factor * value
-
     def add_font(self, name, size):
         font = self.sketch.create_font(name, self.scale_factor * size)
         self.fonts[name + str(size)] = font
