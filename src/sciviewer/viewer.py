@@ -64,7 +64,7 @@ class Viewer(Sketch):
     def set_differential_selection(self, sel_area):
         self.intf.get_widget("scatter").select_cells(sel_area)
 
-    def set_directional_selection(self, sel_area):
+    def set_directional_selection(self, sel_dir, sel_area):
         self.intf.get_widget("scatter").select_cells(sel_area)
 
     def clear_selected_cells(self):

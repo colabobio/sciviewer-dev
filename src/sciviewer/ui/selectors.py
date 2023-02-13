@@ -103,7 +103,7 @@ class MultiDirectionalSelector(Widget):
             if self.spine_mode:
                 self.update_spine()
             else:
-                if self.callback: self.callback(self.selection)
+                if self.callback: self.callback(self.spine, self.selection)
                 self.spine = []
                 self.selection = []
                 self.spine_mode = True
