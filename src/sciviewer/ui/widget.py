@@ -82,15 +82,19 @@ class Widget():
 
     def show(self):
         self.is_visible = True
+        self.set_visible()
 
     def hide(self):
         self.is_visible = False
+        self.set_invisible()
 
     def activate(self):
         self.is_active = True
+        self.set_active()
 
     def deactivate(self):
         self.is_active = False
+        self.set_inactive()
 
     def setup(self):
         pass
@@ -111,4 +115,16 @@ class Widget():
         pass
 
     def lost_focus(self):
+        pass
+
+    def set_active(self):
+        pass
+
+    def set_inactive(self):
+        pass
+
+    def set_visible(self):
+        pass
+    
+    def set_invisible(self):
         pass

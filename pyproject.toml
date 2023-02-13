@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sciviewer"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
   { name="Example Author", email="author@example.com" },
 ]
-description = "Single-cell Viewer"
+description = "Single-cell Interactive Viewer"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
