@@ -5,7 +5,7 @@ from sciviewer.ui.scatter import Scatter
 from sciviewer.ui.buttons import Button
 from sciviewer.ui.buttons import SwitchButton
 from sciviewer.ui.selectors import DifferentialSelector
-from sciviewer.ui.selectors import DirectionalSelector
+from sciviewer.ui.selectors import SingleDirectionalSelector
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -76,7 +76,7 @@ class Viewer(Sketch):
         self.intf.add_widget(Scatter(self.intf, 0, 0, self.width, self.height), name="scatter")
 
         diff_selector = DifferentialSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_differential_selection)
-        dir_selector = DirectionalSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_directional_selection)
+        dir_selector = SingleDirectionalSelector(self.intf, 0, 0, self.width, self.height, callback=self.set_directional_selection)
         self.intf.add_widget(diff_selector, name="diff_selector", parent_name="scatter")
         self.intf.add_widget(dir_selector, name="dir_selector", parent_name="scatter")
 

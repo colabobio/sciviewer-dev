@@ -59,8 +59,8 @@ class DifferentialSelector(Widget):
     def deactivate(self):
         self.is_active = False
         self.selection = []
-
-class DirectionalSelector(Widget):
+                
+class MultiDirectionalSelector(Widget):
     def setup(self):
         self.is_active = False
 
@@ -92,7 +92,7 @@ class DirectionalSelector(Widget):
             p.begin_shape()
             for mpos in self.selection:
                 p.vertex(mpos[0], mpos[1])                
-            p.end_shape()
+            p.end_shape(p.CLOSE)
             ppos = self.spine[-1]
             p.line(ppos[0], ppos[1], self.mouse_x, self.mouse_y)
 
@@ -115,7 +115,7 @@ class DirectionalSelector(Widget):
             self.spine = []
             self.selection = []
 
-    def update_spine(self):     
+    def update_spine(self):
         p = self.intf.sketch
         if 0 < len(self.spine):
             pmouse = self.spine[-1]
@@ -196,3 +196,15 @@ class DirectionalSelector(Widget):
         self.is_active = False
         self.spine = []
         self.selection = []
+
+class SingleDirectionalSelector(MultiDirectionalSelector):
+    def update_spine(self):
+        p = self.intf.sketch
+        if 0 < len(self.spine):
+            pmouse = self.spine[-1]
+            if self.tolerance < p.dist(pmouse[0], pmouse[1], self.mouse_x, self.mouse_y):
+                self.spine += [(self.mouse_x, self.mouse_y)]
+                if len(self.spine) == 2:
+                    self.spine_mode = False
+        else:
+            self.spine = [(self.mouse_x, self.mouse_y)]       
