@@ -10,6 +10,7 @@ class Data():
         
         cell_names = adata.obs.index.tolist()
         self.init_cells(cell_names)
+        self.init_genes(self.gene_names)
 
     def init_cells(self, names):
         min1 = self.umap[:,0].min()
@@ -22,6 +23,12 @@ class Data():
             cell = Cell(names[i], self.umap[i,0], self.umap[i,1])
             cell.normalize(min1, max1, min2, max2)
             self.cells.append(cell)
+
+    def init_genes(self, names):
+        self.genes = []
+        for i in range(len(names)):
+            gene = Gene(names[i], i, 0, 0)
+            self.genes.append(gene)
 
 class Gene():
     def __init__(self, n, i, r, p):

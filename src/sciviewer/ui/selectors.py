@@ -5,7 +5,7 @@ import numpy as np
 import numpy.linalg as la
 
 class DifferentialSelector(Widget):
-    def setup(self):       
+    def setup(self):
         self.is_active = False
 
         self.selection = []

@@ -70,10 +70,14 @@ class Viewer(Sketch):
         self.intf.get_widget("scatter").clear_selection()
 
     def init_ui(self):
-        self.intf = Interface(self, self.width/1250)
-        self.intf.add_font("Helvetica", 14)
-
+        # All dimensions below are assuming a window of 1250 x 500, the interface object will scale everything appropriately 
+        # based on the actual size provided by the user
         scatter_width = 500
+        scroll_width = 250
+        button_height = 25
+
+        self.intf = Interface(self, self.width / 1250)
+        self.intf.add_font("Helvetica", 14)
 
         scatter = Scatter(self.intf, 0, 0, scatter_width, scatter_width, name="scatter")
         self.intf.add_widget(scatter)
@@ -83,11 +87,10 @@ class Viewer(Sketch):
         self.intf.add_widget(diff_selector, parent_name="scatter")
         self.intf.add_widget(dir_selector, parent_name="scatter")
 
-        button_width = 250
 
-        diff_button = SwitchButton(self.intf, scatter_width + 10, 20, button_width, 25, name="diff_button", callback=self.switch_to_diff_selection, label="Differential selection")
-        dir_button = SwitchButton(self.intf, scatter_width + 10, 50, button_width, 25, name="dir_button", callback=self.switch_to_dir_selection, label="Directional selection")
-        clear_button = Button(self.intf, scatter_width + 10, 80, button_width, 25, name="clear_button", callback=self.clear_selected_cells, label="Clear selection")
+        diff_button = SwitchButton(self.intf, scatter_width + 10, 10, scroll_width, button_height, name="diff_button", callback=self.switch_to_diff_selection, label="Differential selection")
+        dir_button = SwitchButton(self.intf, scatter_width + 10, 40, scroll_width, button_height, name="dir_button", callback=self.switch_to_dir_selection, label="Directional selection")
+        clear_button = Button(self.intf, scatter_width + 10, 70, scroll_width, button_height, name="clear_button", callback=self.clear_selected_cells, label="Clear selection")
         self.intf.add_widget(diff_button)
         self.intf.add_widget(dir_button)
         self.intf.add_widget(clear_button)
