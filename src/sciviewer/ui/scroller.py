@@ -2,13 +2,45 @@ from sciviewer.ui.widget import Widget
 
 class GeneScroller(Widget):
     def setup(self):
-        self.vs = VScrollBar(self.width, 0, 20, self.height, 16, self.height)
+        self.item_height = 30 # This variable determines how big the column will be to display Gene Name
+        self.item_sep = 10 # Variable determines space between gene name columns.
+        self.genesAr = []
+        self.noMatchFound = False
+
+
+        self.vs = VScrollBar(self, self.width, 0, 20, self.height, 16)
 
     def draw(self):
-        pass
+        p = self.intf.sketch
+
+        genePos = self.vs.getPos()
+
+   
+        p.push_matrix()
+        p.translate(0, -genePos)
+        p.fill(140)
+
+        self.intf.set_font("Helvetica", 14)
+        p.text_align(p.CENTER, p.CENTER)
+        y = 50
+        for gene in p.data.genes:
+            p.fill(200, 100, 100)
+            p.rect(0, y, self.width, self.item_height)
+
+            p.fill(100, 200, 200)
+            p.text(gene.name, 0, y, self.width, self.item_height)
+
+            y += self.item_height + self.item_sep
+  
+        p.pop_matrix()
+
+        self.vs.update()
+        self.vs.display()
+
 
     def press(self):
         self.vs.locked = True
+        print("locked")
 
     def release(self):
         self.vs.locked = False
@@ -28,7 +60,7 @@ class VScrollBar:
         self.spos = 0 # Changes where the start button slider is
         self.newspos = self.spos
         self.sposMin = self.ypos
-        self.sposMax = self.widget.height - self.swidth + 1; # having the plus one lets us get to the end
+        self.sposMax = self.widget.height - self.swidth + 1 # having the plus one lets us get to the end
         self.loose = l
         self.locked = False
 
@@ -49,8 +81,9 @@ class VScrollBar:
     def update(self):
         p = self.widget.intf.sketch
 
-        if self.locked:
+        if self.locked:            
             self.newspos = p.constrain(self.widget.mouse_y - self.swidth/2, self.sposMin, self.sposMax)
+            print(self.newspos)
 
         if abs(self.newspos - self.spos) > 1:
             self.spos = self.spos + (self.newspos-self.spos)/self.loose
