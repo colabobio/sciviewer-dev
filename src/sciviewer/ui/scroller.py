@@ -1,5 +1,16 @@
 from sciviewer.ui.widget import Widget
 
+class SpaceFiller(Widget):
+    def __init__(self, intf, x=0, y=0, w=0, h=0, name=None, callback=None, color="#FFFFFF"):
+        super().__init__(intf, x, y, w, h, name, callback)
+        self.color = color
+
+    def draw(self):
+        p = self.intf.sketch
+        p.no_stroke()
+        p.fill(self.color)
+        p.rect(0, 0, self.width, self.height)
+
 class GeneScroller(Widget):
     def __init__(self, intf, x=0, y=0, w=0, h=0, name=None, callback=None, yp=0, sw=20, l=16):
         super().__init__(intf, x, y, w, h, name, callback)
@@ -34,13 +45,15 @@ class GeneScroller(Widget):
 
         self.intf.set_font("Helvetica", 14)
         p.text_align(p.CENTER, p.CENTER)
-        y = 50
+        y = 0
+        p.no_stroke()
         for gene in p.data.genes:
-            p.fill(200, 100, 100)
-            p.rect(0, y, self.width, self.item_height)
+            if (y - genePos >= -self.item_height) and (y - genePos < self.height):                
+                p.fill(210)
+                p.rect(0, y, self.width - self.swidth, self.item_height, 5)
 
-            p.fill(100, 200, 200)
-            p.text(gene.name, 0, y, self.width, self.item_height)
+                p.fill(0)
+                p.text(gene.name, 0, y, self.width - self.swidth, self.item_height)
 
             y += self.item_height + self.item_sep
 
@@ -48,14 +61,15 @@ class GeneScroller(Widget):
 
         self.update()
                 
-        p.fill(200) # change color of scrollbar
-        p.rect(self.xpos, self.ypos, self.swidth, self.sheight)
+        p.fill("#B7B7B7")
+        p.rect(self.xpos + 5, self.ypos, self.swidth - 5, self.sheight, 5)
 
+        # change color of scrollbar
         if self.locked:
             p.fill(255, 255, 0)
         else:
             p.fill(255, 0, 0)
-        p.rect(self.xpos, self.spos, self.swidth, self.swidth) # change size of square in scroll bar
+        p.rect(self.xpos + 5, self.spos, self.swidth - 5, self.swidth, 5) # change size of square in scroll bar
 
     def reset(self, yp, sw, l):
         self.swidth = sw
@@ -73,15 +87,12 @@ class GeneScroller(Widget):
     def press(self):
         if self.inside_scroll():
             self.locked = True
-            print("Pressing inside scroll")
 
     def release(self):
         self.locked = False
-        print("Stop")
 
     def lost_focus(self):
         self.locked = False
-        print("Stop")
 
     def inside_scroll(self):
         return self.is_focused and self.mouse_x > self.xpos and self.mouse_x < self.xpos+self.swidth and self.mouse_y > self.ypos and self.mouse_y < self.ypos+self.sheight 
@@ -89,7 +100,6 @@ class GeneScroller(Widget):
     def update(self):
         p = self.intf.sketch
 
-        # print("UPDATE", self.locked, abs(self.newspos - self.spos))
         if self.locked:            
             self.newspos = p.constrain(self.mouse_y - self.swidth/2, self.sposMin, self.sposMax)
 
@@ -100,7 +110,7 @@ class GeneScroller(Widget):
     def getPos(self, genes):
         # Convert spos to be values between
 
-        sizeWindowGenes = 50 + 40 * len(genes)
+        sizeWindowGenes = 40 * len(genes)
 
         newScaleScroll = sizeWindowGenes - (self.sposMax - 1) - self.item_height # works good for 500
         newScrollPos = self.spos * (newScaleScroll / (self.sposMax - 1))
@@ -110,8 +120,6 @@ class GeneScroller(Widget):
             self.reset(0, 20, 16)
             return newScrollPos            
         elif newScrollPos < newScaleScroll:
-            print(newScrollPos)
             return newScrollPos
         else:
-            print(newScaleScroll)
             return newScaleScroll

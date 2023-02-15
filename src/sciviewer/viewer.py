@@ -7,6 +7,7 @@ from sciviewer.ui.buttons import SwitchButton
 from sciviewer.ui.selectors import DifferentialSelector
 from sciviewer.ui.selectors import SingleDirectionalSelector
 from sciviewer.ui.scroller import GeneScroller
+from sciviewer.ui.scroller import SpaceFiller
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -88,7 +89,6 @@ class Viewer(Sketch):
         self.intf.add_widget(diff_selector, parent_name="scatter")
         self.intf.add_widget(dir_selector, parent_name="scatter")
 
-
         diff_button = SwitchButton(self.intf, scatter_width + 10, 10, scroll_width, button_height, name="diff_button", callback=self.switch_to_diff_selection, label="Differential selection")
         dir_button = SwitchButton(self.intf, scatter_width + 10, 40, scroll_width, button_height, name="dir_button", callback=self.switch_to_dir_selection, label="Directional selection")
         clear_button = Button(self.intf, scatter_width + 10, 70, scroll_width, button_height, name="clear_button", callback=self.clear_selected_cells, label="Clear selection")
@@ -96,8 +96,9 @@ class Viewer(Sketch):
         self.intf.add_widget(dir_button)
         self.intf.add_widget(clear_button)
 
-        scroller = GeneScroller(self.intf, scatter_width + 10, 100, scroll_width, 400, name="scroller", yp=0, sw=20, l=16)
+        scroller = GeneScroller(self.intf, scatter_width + 10, 130, scroll_width, 370, name="scroller", yp=0, sw=20, l=16)
         self.intf.add_widget(scroller)
+        self.intf.add_widget(SpaceFiller(self.intf, scatter_width + 10, 100, scroll_width, 30))
 
 
 def open_viewer(adata, size):
