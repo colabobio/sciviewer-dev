@@ -26,8 +26,6 @@ class Widget():
         self.name = name
         self.callback = callback
 
-        self.setup()
-
     def set_parent(self, p):
         self.parent = p
         self.abs_x = p.abs_x + self.rel_x

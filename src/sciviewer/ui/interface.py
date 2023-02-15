@@ -22,6 +22,8 @@ class Interface():
                 self.root.add_children(w)
         if w.name:
             self.widgets[w.name] = w
+        
+        w.setup()
 
     def get_widget(self, name):
         if name in self.widgets:
