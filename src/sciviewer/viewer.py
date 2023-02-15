@@ -6,6 +6,7 @@ from sciviewer.ui.buttons import Button
 from sciviewer.ui.buttons import SwitchButton
 from sciviewer.ui.selectors import DifferentialSelector
 from sciviewer.ui.selectors import SingleDirectionalSelector
+from sciviewer.ui.scroller import GeneScroller
 
 if utils.is_mac() and utils.in_notebook():
     # Exectutes the required magic for Py5 to work in notebook mode on Mac:
@@ -94,6 +95,10 @@ class Viewer(Sketch):
         self.intf.add_widget(diff_button)
         self.intf.add_widget(dir_button)
         self.intf.add_widget(clear_button)
+
+        scroller = GeneScroller(self.intf, scatter_width + 10, 100, scroll_width, 400, name="scroller", yp=0, sw=20, l=16)
+        self.intf.add_widget(scroller)
+
 
 def open_viewer(adata, size):
     global _viewer
