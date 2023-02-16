@@ -96,7 +96,7 @@ class Viewer(Sketch):
         self.intf.add_widget(dir_button)
         self.intf.add_widget(clear_button)
 
-        scroller = GeneScroller(self.intf, scatter_width + 10, 130, scroll_width, 370, name="scroller", yp=0, sw=20, l=16)
+        scroller = GeneScroller(self.intf, scatter_width + 10, 130, scroll_width, 370, name="scroller", iheght=30, isep=10, sw=20, l=16)
         self.intf.add_widget(scroller)
         self.intf.add_widget(SpaceFiller(self.intf, scatter_width + 10, 100, scroll_width, 30))
 
